@@ -1,0 +1,151 @@
+# Claude Code Global Instructions
+
+This is a template for your `~/.claude/CLAUDE.md` file with MCP-first configuration.
+
+## Quick Setup
+
+Copy this entire file to `~/.claude/CLAUDE.md`:
+
+```bash
+cp config/CLAUDE.md.template ~/.claude/CLAUDE.md
+```
+
+---
+
+# Global Instructions
+
+## MCP-First Policy (MANDATORY)
+
+**CRITICAL: Always prefer MCP tools over built-in tools for the following tasks.**
+
+### 1. Document Reading - Use `document-loader-mcp`
+
+**NEVER use the built-in Read tool for documents. ALWAYS use document-loader-mcp.**
+
+| File Extension | MCP Command |
+|----------------|-------------|
+| `.pdf` | `mcp-cli call document-loader-mcp/read_document '{"file_path": "/path/to/file.pdf", "file_type": "pdf"}'` |
+| `.doc`, `.docx` | `mcp-cli call document-loader-mcp/read_document '{"file_path": "/path/to/file.docx", "file_type": "docx"}'` |
+| `.ppt`, `.pptx` | `mcp-cli call document-loader-mcp/read_document '{"file_path": "/path/to/file.pptx", "file_type": "pptx"}'` |
+| `.xls`, `.xlsx` | `mcp-cli call document-loader-mcp/read_document '{"file_path": "/path/to/file.xlsx", "file_type": "xlsx"}'` |
+
+**For Images** - Use `document-loader-mcp/read_image`:
+
+| File Extension | MCP Command |
+|----------------|-------------|
+| `.png`, `.jpg`, `.jpeg`, `.gif`, `.bmp`, `.tiff`, `.webp` | `mcp-cli call document-loader-mcp/read_image '{"file_path": "/path/to/image.png"}'` |
+
+**Auto-detection rules (NO prompting required):**
+1. File path ends in .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx → USE document-loader-mcp IMMEDIATELY
+2. File path ends in .png, .jpg, .jpeg, .gif, .bmp, .tiff, .webp → USE document-loader-mcp/read_image
+3. User says "read this", "look at this", "check this document", "review this file" → USE MCP
+4. User pastes/provides any document path → USE MCP
+5. **NEVER ask "should I read this?"** - just read it automatically
+
+---
+
+### 2. Web Search - Use `exa` MCP
+
+**NEVER use the built-in WebSearch tool. ALWAYS use Exa MCP.**
+
+| Action | MCP Command |
+|--------|-------------|
+| Web search | `mcp-cli call exa/web_search_exa '{"query": "search terms here"}'` |
+| Code context | `mcp-cli call exa/get_code_context_exa '{"query": "code search terms"}'` |
+
+**When to use Exa:**
+- User asks to search the web
+- User asks "find", "search for", "look up" something online
+- Need current information beyond knowledge cutoff
+- Researching libraries, frameworks, or documentation
+- Finding code examples or implementations
+
+---
+
+### 3. MCP Schema Check (REQUIRED)
+
+Before ANY `mcp-cli call`, first check the schema:
+
+```bash
+mcp-cli info <server>/<tool>
+```
+
+This is MANDATORY - never guess parameters.
+
+---
+
+## MCP Quick Reference
+
+### Available MCPs
+
+| MCP | Tools | Purpose |
+|-----|-------|---------|
+| `document-loader-mcp` | `read_document`, `read_image` | Read PDFs, Word, Excel, PowerPoint, images |
+| `exa` | `web_search_exa`, `get_code_context_exa` | AI-powered web and code search |
+
+### Common Commands
+
+```bash
+# List all MCPs
+mcp-cli servers
+
+# List tools for an MCP
+mcp-cli tools document-loader-mcp
+mcp-cli tools exa
+
+# Get tool schema
+mcp-cli info document-loader-mcp/read_document
+mcp-cli info exa/web_search_exa
+
+# Search for tools
+mcp-cli grep "search"
+```
+
+---
+
+## Coding Preferences
+
+- TypeScript by default
+- No code comments unless explicitly requested
+- Avoid nested ternaries, use early returns
+- `const` over `let`, `async/await` over `.then()`
+- Named imports, avoid `any` type
+- Never commit unless asked
+- No emojis unless requested
+- Follow SOLID principles
+
+---
+
+## Compaction Instructions
+
+When auto-compaction triggers or `/compact` is used:
+
+### MUST Preserve (Full Detail)
+1. Last 10 messages - Keep verbatim
+2. Current task state - What we're actively working on
+3. All file modifications - Every file path, what changed, why
+4. Code snippets written - Actual code created or modified
+5. Decisions made - Technical choices, user preferences
+6. Errors encountered - Error messages and resolutions
+7. Todo list state - All pending, in-progress, completed items
+
+### MUST Summarize (Condensed)
+1. Exploration/research → "Searched X, found Y in Z location"
+2. File reads → "Read [file] - contains [key info]"
+3. Failed attempts → "Tried X, failed because Y"
+4. General discussion → Extract only actionable conclusions
+
+### Priority Order
+1. Current task context and last messages
+2. File changes and code written
+3. Decisions and user preferences
+4. Error resolutions
+5. Everything else as summary
+
+---
+
+## Additional Instructions
+
+Add your custom instructions below this line:
+
+<!-- Your custom instructions here -->

@@ -1,0 +1,34 @@
+{
+  "name": "document-loader-mcp",
+  "description": "Read PDF, Word, Excel, PowerPoint, and image files in Claude Code",
+  "source": "https://github.com/awslabs/mcp/tree/main/src/document-loader",
+  "tools": [
+    {
+      "name": "read_document",
+      "description": "Extract content from PDF, Word, Excel, PowerPoint files",
+      "parameters": {
+        "file_path": "Absolute path to the document",
+        "file_type": "pdf | docx | doc | xlsx | xls | pptx | ppt",
+        "timeout_seconds": "Optional timeout (default: 30)"
+      }
+    },
+    {
+      "name": "read_image",
+      "description": "Load images for visual analysis",
+      "parameters": {
+        "file_path": "Absolute path to the image (PNG, JPG, GIF, BMP, TIFF, WEBP)",
+        "timeout_seconds": "Optional timeout (default: 30)"
+      }
+    }
+  ],
+  "settings": {
+    "command": "npx",
+    "args": ["-y", "@anthropic/mcp-document-loader"],
+    "env": {}
+  },
+  "settings_bun": {
+    "command": "bunx",
+    "args": ["@anthropic/mcp-document-loader"],
+    "env": {}
+  }
+}

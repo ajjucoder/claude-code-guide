@@ -1,0 +1,37 @@
+{
+  "name": "exa",
+  "description": "AI-optimized web search and code context search powered by Exa.ai",
+  "source": "https://github.com/exa-labs/exa-mcp",
+  "requires_api_key": true,
+  "api_key_url": "https://exa.ai",
+  "tools": [
+    {
+      "name": "web_search_exa",
+      "description": "Search the web with AI-optimized results",
+      "parameters": {
+        "query": "Search query string"
+      }
+    },
+    {
+      "name": "get_code_context_exa",
+      "description": "Search for code examples and implementations",
+      "parameters": {
+        "query": "Code-related search query"
+      }
+    }
+  ],
+  "settings": {
+    "command": "npx",
+    "args": ["-y", "@anthropic/mcp-exa"],
+    "env": {
+      "EXA_API_KEY": "your-exa-api-key-here"
+    }
+  },
+  "settings_bun": {
+    "command": "bunx",
+    "args": ["@anthropic/mcp-exa"],
+    "env": {
+      "EXA_API_KEY": "your-exa-api-key-here"
+    }
+  }
+}
