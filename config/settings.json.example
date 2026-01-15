@@ -1,0 +1,29 @@
+{
+  "env": {
+    "ANTHROPIC_MODEL": "claude-opus-4-5-thinking",
+    "ENABLE_EXPERIMENTAL_MCP_CLI": "true"
+  },
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "allow": [
+      "WebSearch",
+      "WebFetch",
+      "Read",
+      "Glob",
+      "Grep",
+      "Edit",
+      "Write",
+      "Task",
+      "Bash(git:*)",
+      "Bash(npm:*)",
+      "Bash(node:*)",
+      "Bash(python:*)",
+      "Bash(mcp-cli:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf /:*)",
+      "Bash(sudo rm -rf:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true
+}
